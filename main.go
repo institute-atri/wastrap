@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/institute-atri/wastrap/internal/update"
+	"github.com/institute-atri/wastrap/update"
 )
 
 func main() {
