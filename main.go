@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/institute-atri/wastrap/update"
+)
 
 func main() {
-	fmt.Println("Hello, Wastrap!")
+	fmt.Println("Hello world")
+	update.CheckUpdate()
 }
