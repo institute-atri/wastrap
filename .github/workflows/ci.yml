@@ -30,10 +30,13 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./...
+        run: go test -race -coverprofile=coverage.out -covermode=atomic -v ./...
+        shell:
+          ${{ runner.os == 'Windows' ? 'pwsh': 'bash' } }
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
+          file: ./coverage.out
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: institute-atri/wastrap
