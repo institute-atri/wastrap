@@ -30,8 +30,13 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -race -coverprofile=coverage.out -covermode=atomic -v ./...
-        shell: '${{ runner.os == "Windows" ? "pwsh" : "bash" }}'
+        run: |
+          if [[ "${{ runner.os }}" == 'Windows' ]]; then
+            go test -coverprofile=coverage.out -covermode=atomic -v ./...
+          else
+            go test -race -coverprofile=coverage.out -covermode=atomic -v ./...
+          fi
+        shell: bash
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
