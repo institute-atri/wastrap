@@ -17,8 +17,7 @@ type Application struct {
 }
 
 func checkRepositoryVersion() string {
-	// url := "https://raw.githubusercontent.com/institute-atri/wastrap/main/internal/config/config.yaml"
-	url := "https://raw.githubusercontent.com/institute-atri/wastrap/feat/%239/internal/config/config.yaml"
+	url := "https://raw.githubusercontent.com/institute-atri/wastrap/main/internal/config/config.yaml"
 	var response = gnet.GET(url)
 
 	reader := strings.NewReader(response.BRaw)
