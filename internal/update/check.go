@@ -1,3 +1,6 @@
+/*
+Package update provides functionality for updating the application.
+*/
 package update
 
 import (
@@ -10,6 +13,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// Application represents the structure of the application version.
 type Application struct {
 	Application struct {
 		Version string `yaml:"version"`
@@ -34,6 +38,10 @@ func checkRepositoryVersion() string {
 		return ""
 	}
 
+	if appInfos.Application.Version == "" {
+		glogger.Fatal("Failed to find update, check github link: https://github.com/institute-atri/wastrap")
+	}
+
 	return appInfos.Application.Version
 }
 
@@ -56,6 +64,8 @@ func findConfigFile() string {
 	return appInfo.Application.Version
 }
 
+// CheckUpdate checks if an update is available by comparing the repository version with the current version.
+// If an update is available, it triggers the update process.
 func CheckUpdate() {
 	var respositoryVersion string = checkRepositoryVersion()
 	var programVersion string = findConfigFile()

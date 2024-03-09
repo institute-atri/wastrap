@@ -5,7 +5,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"syscall"
 
 	"github.com/institute-atri/glogger"
 )
@@ -114,11 +113,11 @@ func installingGit() {
 	}
 }
 
-func restart() {
-	exePath, _ := os.Executable()
-	syscall.Exec(exePath, os.Args, os.Environ())
+func exit() {
+	os.Exit(0)
 }
 
+// GettingUpdate requests the application update and manages the update process.
 func GettingUpdate() {
 	updateWastrapPermission, _ := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
 
@@ -132,23 +131,24 @@ func GettingUpdate() {
 
 				glogger.Done("Update done successfully")
 
-				restart()
+				exit()
 			} else {
+				glogger.Danger("Git not installed")
 				installGitPermission, _ := glogger.ScanQ("Do you want to install git? [Y/n] ")
 
 				if permissionIf(installGitPermission) {
 					installingGit()
-				}
 
-				if isDebian() || isFedora() || isMacOS() {
-					glogger.Warning("Updating wastrap...")
+					if isDebian() || isFedora() || isMacOS() {
+						glogger.Warning("Updating wastrap...")
 
-					cmd := exec.Command("git", "pull", "origin", "main")
-					cmd.Run()
+						cmd := exec.Command("git", "pull", "origin", "main")
+						cmd.Run()
 
-					glogger.Done("Update done successfully")
+						glogger.Done("Update done successfully")
 
-					restart()
+						exit()
+					}
 				}
 			}
 		} else {
@@ -162,8 +162,8 @@ func GettingUpdate() {
 				cmd = exec.Command("git", "pull", "origin", "main")
 				cmd.Run()
 				glogger.Done("Update done successfully")
-				
-				restart()
+
+				exit()
 			} else {
 				installGitPermission, _ := glogger.ScanQ("Do you want to install git? [Y/n] ")
 
@@ -182,8 +182,7 @@ func GettingUpdate() {
 					cmd.Run()
 					glogger.Done("Update done successfully")
 
-
-					restart()
+					exit()
 				}
 			}
 		}
