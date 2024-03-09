@@ -1,11 +1,12 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package main
 
-import "github.com/institute-atri/wastrap/cmd"
+import (
+	"fmt"
+)
 
 func main() {
-	cmd.Execute()
+	fmt.Println("Hello world")
 }
