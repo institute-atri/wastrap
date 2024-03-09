@@ -1,17 +1,19 @@
 package update
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"syscall"
+
+	"github.com/institute-atri/glogger"
 )
 
 func checkTheGitPath() bool {
 	currentDir, err := os.Getwd()
 	if err != nil {
-		fmt.Println("The program is damaged,: https://github.com/institute-atri/wastrap")
+		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
 	}
 
 	gitDir := filepath.Join(currentDir, ".git")
@@ -21,7 +23,7 @@ func checkTheGitPath() bool {
 	} else if os.IsNotExist(err) {
 		return false
 	} else {
-		fmt.Println("Error when checking if the project is using git")
+		glogger.Danger("Error when checking if the project is using git")
 		return false
 	}
 }
@@ -51,19 +53,15 @@ func isFedora() bool {
 }
 
 func openBrowser() {
-	var err error
 	url := "https://git-scm.com/downloads"
 
 	switch runtime.GOOS {
 	case "linux":
-		err = exec.Command("xdg-open", url).Start()
+		exec.Command("xdg-open", url).Start()
 	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+		exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
 	case "darwin":
-		err = exec.Command("open", url).Start()
-	}
-	if err != nil {
-		fmt.Println(err)
+		exec.Command("open", url).Start()
 	}
 }
 
@@ -79,86 +77,83 @@ func installingGit() {
 	url := "https://git-scm.com/downloads"
 
 	if isMacOS() {
-		fmt.Println("Installing git...")
+		glogger.Warning("Installing git...")
 
 		cmd := exec.Command("brew", "install", "git")
 		cmd.Run()
 
 	} else if isWindows() {
-		var redirectPermission string
-
-		fmt.Print("Do you want to be redirected to the git download site? [Y/n] ")
-		fmt.Scan(&redirectPermission)
+		redirectPermission, _ := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
 
 		if permissionIf(redirectPermission) {
 			exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
 		} else {
-			fmt.Println("Downlaod git from: https://git-scm.com/downloads")
+			glogger.Info("Downlaod git from: https://git-scm.com/downloads")
 		}
 
 	} else if isDebian() {
-		fmt.Println("Installing git...")
+		glogger.Warning("Installing git...")
 
 		cmd := exec.Command("sudo", "apt", "install", "git", "-y")
 		cmd.Run()
 
 	} else if isFedora() {
-		fmt.Printf("Installing git...")
+		glogger.Warning("Installing git...")
 
 		cmd := exec.Command("sudo", "dnf", "install", "git", "-y")
 		cmd.Run()
 
 	} else {
-		var redirectPermission string
-
-		fmt.Print("Do you want to be redirected to the git download site? [Y/n] ")
-		fmt.Scan(&redirectPermission)
+		redirectPermission, _ := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
 
 		if permissionIf(redirectPermission) {
 			openBrowser()
 		} else {
-			fmt.Println("Downlaod git from: https://git-scm.com/downloads")
+			glogger.Info("Downlaod git from: https://git-scm.com/downloads")
 		}
 	}
 }
 
-func GettingUpdate() {
-	var updateWastrapPermission string
+func restart() {
+	exePath, _ := os.Executable()
+	syscall.Exec(exePath, os.Args, os.Environ())
+}
 
-	fmt.Print("Do you want to update wastrap [Y/n] ")
-	fmt.Scan(&updateWastrapPermission)
+func GettingUpdate() {
+	updateWastrapPermission, _ := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
 
 	if permissionIf(updateWastrapPermission) {
 		if checkTheGitPath() {
 			if checkIfGitIsInstalled() {
-				fmt.Println("Updating wastrap")
+				glogger.Warning("Updating wastrap...")
 
 				cmd := exec.Command("git", "pull", "origin", "main")
 				cmd.Run()
 
-				println("Update done successfully")
-			} else {
-				var installGitPermission string
+				glogger.Done("Update done successfully")
 
-				fmt.Print("Do you want to install git? [Y/n] ")
-				fmt.Scan(&installGitPermission)
+				restart()
+			} else {
+				installGitPermission, _ := glogger.ScanQ("Do you want to install git? [Y/n] ")
 
 				if permissionIf(installGitPermission) {
 					installingGit()
 				}
 
 				if isDebian() || isFedora() || isMacOS() {
-					fmt.Println("Updating wastrap")
+					glogger.Warning("Updating wastrap...")
 
 					cmd := exec.Command("git", "pull", "origin", "main")
 					cmd.Run()
 
-					println("Update done successfully")
+					glogger.Done("Update done successfully")
+
+					restart()
 				}
 			}
 		} else {
 			if checkIfGitIsInstalled() {
-				fmt.Println("Updating wastrap")
+				glogger.Warning("Updating wastrap...")
 				var cmd *exec.Cmd
 				cmd = exec.Command("git", "init")
 				cmd.Run()
@@ -166,19 +161,18 @@ func GettingUpdate() {
 				cmd.Run()
 				cmd = exec.Command("git", "pull", "origin", "main")
 				cmd.Run()
-				println("Update done successfully")
+				glogger.Done("Update done successfully")
+				
+				restart()
 			} else {
-				var installGitPermission string
-
-				fmt.Print("Do you want to install git? [Y/n] ")
-				fmt.Scan(&installGitPermission)
+				installGitPermission, _ := glogger.ScanQ("Do you want to install git? [Y/n] ")
 
 				if permissionIf(installGitPermission) {
 					installingGit()
 				}
 
 				if isDebian() || isFedora() || isMacOS() {
-					fmt.Println("Updating wastrap")
+					glogger.Warning("Updating wastrap...")
 					var cmd *exec.Cmd
 					cmd = exec.Command("git", "init")
 					cmd.Run()
@@ -186,7 +180,10 @@ func GettingUpdate() {
 					cmd.Run()
 					cmd = exec.Command("git", "pull", "origin", "main")
 					cmd.Run()
-					println("Update done successfully")
+					glogger.Done("Update done successfully")
+
+
+					restart()
 				}
 			}
 		}

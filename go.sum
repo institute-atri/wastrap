@@ -1,3 +1,10 @@
+github.com/institute-atri/glogger v0.0.0-20240307222852-5e2b26881977 h1:MCKcj1LinThj7dHZF2egs+CfLHjW5HTwW97pX75fSZ0=
+github.com/institute-atri/glogger v0.0.0-20240307222852-5e2b26881977/go.mod h1:Vc1Lw91Epn5eApmf6vA38wTGFzflOlTsaMKHAk1E5dM=
+github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6 h1:QHbV3gHuqTDJ7epdTmdr1pvobztIb+SLAaVfuhlR/WE=
+github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6/go.mod h1:Vc1Lw91Epn5eApmf6vA38wTGFzflOlTsaMKHAk1E5dM=
+github.com/institute-atri/gnet v0.0.0-20240308200525-07b3e9d62160 h1:Pz5TyfVLDv5MYooJ6D1f4ApaGAJdNXnJlo4f0D3wI2k=
+github.com/institute-atri/gnet v0.0.0-20240308200525-07b3e9d62160/go.mod h1:mt7Jg9iEgvJrqB5+tirUgXT4UBXyadxEacK1yUVumPc=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
-gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=
-gopkg.in/yaml.v2 v2.4.0/go.mod h1:RDklbk79AGWmwhnvt/jBztapEOGDOx6ZbXqjP6csGnQ=
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

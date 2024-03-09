@@ -1,12 +1,13 @@
 package update
 
 import (
-	"fmt"
 	"io"
-	"net/http"
 	"os"
+	"strings"
 
-	"gopkg.in/yaml.v2"
+	"github.com/institute-atri/glogger"
+	"github.com/institute-atri/gnet"
+	"gopkg.in/yaml.v3"
 )
 
 type Application struct {
@@ -16,25 +17,21 @@ type Application struct {
 }
 
 func checkRepositoryVersion() string {
-	url := "https://raw.githubusercontent.com/institute-atri/wastrap/main/internal/config/config.yaml"
+	// url := "https://raw.githubusercontent.com/institute-atri/wastrap/main/internal/config/config.yaml"
+	url := "https://raw.githubusercontent.com/institute-atri/wastrap/feat/%239/internal/config/config.yaml"
+	var response = gnet.GET(url)
 
-	res, err := http.Get(url)
+	reader := strings.NewReader(response.BRaw)
+	body, err := io.ReadAll(reader)
 	if err != nil {
-		fmt.Println("Failed to find update, check github link: https://github.com/institute-atri/wastrap")
-		return ""
-	}
-	defer res.Body.Close()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println("Failed to find update, check github link: https://github.com/institute-atri/wastrap")
+		glogger.Danger("Failed to find update, check github link: https://github.com/institute-atri/wastrap")
 		return ""
 	}
 
 	var appInfos Application
 	err = yaml.Unmarshal(body, &appInfos)
 	if err != nil {
-		fmt.Println("Failed to find update, check github link: https://github.com/institute-atri/wastrap")
+		glogger.Danger("Failed to find update, check github link: https://github.com/institute-atri/wastrap")
 		return ""
 	}
 
@@ -46,14 +43,14 @@ func findConfigFile() string {
 
 	file, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Println("The program is damaged,: https://github.com/institute-atri/wastrap")
+		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
 		return ""
 	}
 
 	var appInfo Application
 	err = yaml.Unmarshal(file, &appInfo)
 	if err != nil {
-		fmt.Println("The program is damaged,: https://github.com/institute-atri/wastrap")
+		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
 		return ""
 	}
 
@@ -64,7 +61,7 @@ func CheckUpdate() {
 	var respositoryVersion string = checkRepositoryVersion()
 	var programVersion string = findConfigFile()
 
-	if respositoryVersion != programVersion {
+	if respositoryVersion != programVersion && programVersion != "" && respositoryVersion != "" {
 		GettingUpdate()
 	}
 
