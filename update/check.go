@@ -20,7 +20,7 @@ type Application struct {
 	} `yaml:"application"`
 }
 
-func checkRepositoryVersion() string {
+func CheckRepositoryVersion() string {
 	url := "https://raw.githubusercontent.com/institute-atri/wastrap/main/internal/config/config.yaml"
 	var response = gnet.GET(url)
 
@@ -45,9 +45,15 @@ func checkRepositoryVersion() string {
 	return appInfos.Application.Version
 }
 
-func findConfigFile() string {
-	filePath := "internal/config/config.yaml"
+func FindConfigFile(test bool) string {
+	var filePath string
 
+	if test {
+		filePath = "../internal/config/config.yaml"
+	} else {
+		filePath = "internal/config/config.yaml"
+	}
+	
 	file, err := os.ReadFile(filePath)
 	if err != nil {
 		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
@@ -60,18 +66,18 @@ func findConfigFile() string {
 		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
 		return ""
 	}
-
 	return appInfo.Application.Version
 }
 
 // CheckUpdate checks if an update is available by comparing the repository version with the current version.
 // If an update is available, it triggers the update process.
 func CheckUpdate() {
-	var respositoryVersion string = checkRepositoryVersion()
-	var programVersion string = findConfigFile()
+	respositoryVersion := CheckRepositoryVersion()
+	programVersion := FindConfigFile(false)
 
 	if respositoryVersion != programVersion && programVersion != "" && respositoryVersion != "" {
-		GettingUpdate()
+		updateWastrapPermission, _ := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
+		GettingUpdate(updateWastrapPermission)
 	}
-
 }
+
