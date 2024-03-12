@@ -178,6 +178,7 @@ func updateWithGit() {
 	cmd := exec.Command("git", "pull", "origin", "main")
 	cmd.Run()
 
+	glogger.Done("Update done successfully")
 	exit()
 }
 
