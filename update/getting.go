@@ -101,11 +101,11 @@ func installGitMacOs() error {
 
 func installGitWindows(permission string) error {
 	if permissionIf(permission) {
-		return exec.Command("rundll32", "url.dll,FileProtocolHandler", "https://git-scm.com/downloads").Start()
+		exec.Command("rundll32", "url.dll,FileProtocolHandler", "https://git-scm.com/downloads").Start()
 	} else {
 		glogger.Info("Downlaod git from: https://git-scm.com/downloads")
-		return nil
 	}
+	return nil
 }
 
 func installGitDebian() error {
