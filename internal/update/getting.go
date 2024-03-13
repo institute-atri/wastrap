@@ -5,6 +5,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/institute-atri/glogger"
 )
@@ -65,9 +66,10 @@ func openBrowser() {
 }
 
 func permissionIf(variable string) bool {
-	if variable == "y" || variable == "Y" || variable == "yes" || variable == "YES" || variable == "Yes" {
+	switch strings.ToLower(variable) {
+	case "y", "yes":
 		return true
-	} else {
+	default:
 		return false
 	}
 }
@@ -101,11 +103,11 @@ func installGitMacOs() error {
 
 func installGitWindows(permission string) error {
 	if permissionIf(permission) {
-		return exec.Command("rundll32", "url.dll,FileProtocolHandler", "https://git-scm.com/downloads").Start()
+		exec.Command("rundll32", "url.dll,FileProtocolHandler", "https://git-scm.com/downloads").Start()
 	} else {
 		glogger.Info("Downlaod git from: https://git-scm.com/downloads")
-		return nil
 	}
+	return nil
 }
 
 func installGitDebian() error {
@@ -122,12 +124,12 @@ func installGitFedora() error {
 }
 
 func installGitUnknown(permission string) error {
-	
 	if permissionIf(permission) {
 		openBrowser()
 	} else {
 		glogger.Info("Downlaod git from: https://git-scm.com/downloads")
 	}
+
 	return nil
 }
 
@@ -145,14 +147,20 @@ func GettingUpdate(permission string) {
 func updateSoftware() {
 	if checkTheGitPath() {
 		if checkIfGitIsInstalled() {
-			updateWithGit()
+			updateWithGit(false)
 		} else {
 			updateGitNotInstalled()
+			if isDebian() || isFedora() || isMacOS() {
+				updateWithGit(false)
+			}
 		}
 	} else {
-		createGitPath()
 		if !checkIfGitIsInstalled() {
 			updateGitNotInstalled()
+			createGitPath()
+			exit()
+		} else {
+			createGitPath()
 		}
 	}
 
@@ -161,25 +169,36 @@ func updateSoftware() {
 func createGitPath() {
 	glogger.Warning("Updating wastrap...")
 	var cmd *exec.Cmd
+	
 	cmd = exec.Command("git", "init")
 	cmd.Run()
+	
 	cmd = exec.Command("git", "remote", "add", "origin", "https://github.com/institute-atri/wastrap")
 	cmd.Run()
+	
 	cmd = exec.Command("git", "pull", "origin", "main")
 	cmd.Run()
+	
 	glogger.Done("Update done successfully")
-
 	exit()
 }
 
-func updateWithGit() {
+func updateWithGit(test bool) error {
 	glogger.Warning("Updating wastrap...")
 
 	cmd := exec.Command("git", "pull", "origin", "main")
-	cmd.Run()
+	switch test {
+	case true:
+		if err := cmd.Run(); err != nil {
+			return nil
+		}
+	case false:
+		cmd.Run()
+	}
 
 	glogger.Done("Update done successfully")
-	exit()
+
+	return nil
 }
 
 func updateGitNotInstalled() {
@@ -188,16 +207,5 @@ func updateGitNotInstalled() {
 
 	if permissionIf(installGitPermission) {
 		installingGit()
-
-		if isDebian() || isFedora() || isMacOS() {
-			glogger.Warning("Updating wastrap...")
-
-			cmd := exec.Command("git", "pull", "origin", "main")
-			cmd.Run()
-
-			glogger.Done("Update done successfully")
-
-			exit()
-		}
 	}
 }
