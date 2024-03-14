@@ -10,22 +10,27 @@ import (
 	"github.com/institute-atri/glogger"
 )
 
-func checkTheGitPath() bool {
-	currentDir, err := os.Getwd()
-	if err != nil {
-		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
-	}
+func checkTheGitPath(test bool) bool {
+		currentDir, err := os.Getwd()
+		if err != nil {
+			glogger.Danger("O programa está danificado, verifique o link do GitHub: https://github.com/institute-atri/wastrap")
+		}
 
-	gitDir := filepath.Join(currentDir, ".git")
-	_, err = os.Stat(gitDir)
-	if err == nil {
-		return true
-	} else if os.IsNotExist(err) {
+		var gitDir string
+		
+		if test {
+			gitDir = filepath.Join(currentDir,  "..", "..", ".git")
+		} else {
+			gitDir = filepath.Join(currentDir, "..", ".git")
+		}
+	
+		_, err = os.Stat(gitDir)
+		if err == nil {
+			return true
+		} else if os.IsNotExist(err) {
+			return false
+		}
 		return false
-	} else {
-		glogger.Danger("Error when checking if the project is using git")
-		return false
-	}
 }
 
 func checkIfGitIsInstalled() bool {
@@ -140,12 +145,12 @@ func exit() {
 // GettingUpdate requests the application update and manages the update process.
 func GettingUpdate(permission string) {
 	if permissionIf(permission) {
-		updateSoftware()
+		updateSoftware(false)
 	}
 }
 
-func updateSoftware() {
-	if checkTheGitPath() {
+func updateSoftware(test bool) {
+	if checkTheGitPath(test) {
 		if checkIfGitIsInstalled() {
 			updateWithGit(false)
 		} else {

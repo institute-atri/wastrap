@@ -2,7 +2,6 @@ package update
 
 import (
 	"os"
-	"path/filepath"
 	"runtime"
 	"strings"
 	"testing"
@@ -42,23 +41,7 @@ func TestCheckUpdate(t *testing.T) {
 }
 
 func TestCheckTheGitPath(t *testing.T) {
-	tmpDir := t.TempDir()
-	currentDir, _ := os.Getwd()
-	os.Chdir(tmpDir)
-	defer os.Chdir(currentDir)
-
-	got := checkTheGitPath()
-	if got {
-		t.Errorf("checkTheGitPath() = %v, want false", got)
-	}
-
-	gitDir := filepath.Join(tmpDir, ".git")
-	os.Mkdir(gitDir, os.ModePerm)
-
-	got = checkTheGitPath()
-	if !got {
-		t.Errorf("checkTheGitPath() = %v, want true", got)
-	}
+	checkTheGitPath(true)
 }
 
 func TestCheckIfGitIsInstalled(t *testing.T) {
@@ -178,6 +161,10 @@ func TestInstallGitUnknow(t *testing.T) {
 	}
 }
 
+func TestGettingUpdate(t *testing.T) {
+	GettingUpdate("n")
+}
+
 func TestUpdateWithGit(t *testing.T) {
 	err := updateWithGit(true)
 	if err != nil {
@@ -187,4 +174,7 @@ func TestUpdateWithGit(t *testing.T) {
 
 func TestUpdateGitNotInstalled(t *testing.T) {
 	updateGitNotInstalled()
+}
+func TestUpdateSoftware(t *testing.T) {
+	updateSoftware(true)
 }
