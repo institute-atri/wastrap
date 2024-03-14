@@ -14,7 +14,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Application represents the structure of the application version.
+// The Application represents the structure of the application version.
 type Application struct {
 	Application struct {
 		Version string `yaml:"version"`
@@ -73,10 +73,10 @@ func FindConfigFile(test bool) string {
 // CheckUpdate checks if an update is available by comparing the repository version with the current version.
 // If an update is available, it triggers the update process.
 func CheckUpdate() error {
-	respositoryVersion := CheckRepositoryVersion()
+	repositoryVersion := CheckRepositoryVersion()
 	programVersion := FindConfigFile(false)
 
-	if respositoryVersion != programVersion && programVersion != "" && respositoryVersion != "" {
+	if repositoryVersion != programVersion && programVersion != "" && repositoryVersion != "" {
 		updateWastrapPermission, _ := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
 		GettingUpdate(updateWastrapPermission)
 		return nil
