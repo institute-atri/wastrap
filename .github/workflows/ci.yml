@@ -37,5 +37,4 @@ jobs:
         with:
           file: ./coverage.out
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: institute-atri/wastrap
           verbose: true
