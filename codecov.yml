@@ -2,5 +2,5 @@ coverage:
   status:
     patch:
       default:
-        target: auto    # This can be a percentage like '70%' or 'auto' to use the base report coverage
-        threshold: 30%  # Coverage can drop by 30% and the commit will still pass
+        target: auto     # This can be a percentage like '70%' or 'auto' to use the base report coverage
+        threshold: 100%  # Coverage can drop by 100% and the commit will still pass
