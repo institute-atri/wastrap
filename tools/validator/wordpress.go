@@ -1,10 +1,15 @@
 package validator
 
 import (
+	"fmt"
 	"strings"
-
 	"github.com/institute-atri/gnet"
 )
+func URLRequest() {
+	var url string
+	fmt.Println("Enter the URL:")
+	fmt.Scanln(&url)
+}
 
 // It must perform validation to determine if the target inserted through the --url parameter of the Command Line Interface (CLI) is effectively running the WordPress framework.
 func Wordpress(url string) bool {
