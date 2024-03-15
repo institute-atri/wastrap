@@ -5,26 +5,32 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/institute-atri/glogger"
 )
 
-func checkTheGitPath() bool {
+func checkTheGitPath(test bool) bool {
 	currentDir, err := os.Getwd()
 	if err != nil {
-		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
+		glogger.Danger("The program is damaged, check the GitHub link: https://github.com/institute-atri/wastrap")
 	}
 
-	gitDir := filepath.Join(currentDir, ".git")
+	var gitDir string
+
+	if test {
+		gitDir = filepath.Join(currentDir, "..", "..", ".git")
+	} else {
+		gitDir = filepath.Join(currentDir, "..", ".git")
+	}
+
 	_, err = os.Stat(gitDir)
 	if err == nil {
 		return true
 	} else if os.IsNotExist(err) {
 		return false
-	} else {
-		glogger.Danger("Error when checking if the project is using git")
-		return false
 	}
+	return false
 }
 
 func checkIfGitIsInstalled() bool {
@@ -56,39 +62,38 @@ func openBrowser() {
 
 	switch runtime.GOOS {
 	case "linux":
-		exec.Command("xdg-open", url).Start()
+		_ = exec.Command("xdg-open", url).Start()
 	case "windows":
-		exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+		_ = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
 	case "darwin":
-		exec.Command("open", url).Start()
+		_ = exec.Command("open", url).Start()
 	}
 }
 
 func permissionIf(variable string) bool {
-	if variable == "y" || variable == "Y" || variable == "yes" || variable == "YES" || variable == "Yes" {
+	switch strings.ToLower(variable) {
+	case "y", "yes":
 		return true
-	} else {
+	default:
 		return false
 	}
 }
 
 func installingGit() error {
 	if isMacOS() {
-		installGitMacOs()
+		_ = installGitMacOs()
 	} else if isWindows() {
 		redirectPermission, _ := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
-
-		installGitWindows(redirectPermission)
+		_ = installGitWindows(redirectPermission)
 	} else if isDebian() {
-		installGitDebian()
+		_ = installGitDebian()
 	} else if isFedora() {
-		installGitFedora()
+		_ = installGitFedora()
 	} else {
 		redirectPermission, _ := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
 
-		installGitUnknown(redirectPermission)
+		_ = installGitUnknown(redirectPermission)
 	}
-
 	return nil
 }
 
@@ -101,11 +106,11 @@ func installGitMacOs() error {
 
 func installGitWindows(permission string) error {
 	if permissionIf(permission) {
-		return exec.Command("rundll32", "url.dll,FileProtocolHandler", "https://git-scm.com/downloads").Start()
+		_ = exec.Command("rundll32", "url.dll,FileProtocolHandler", "https://git-scm.com/downloads").Start()
 	} else {
-		glogger.Info("Downlaod git from: https://git-scm.com/downloads")
-		return nil
+		glogger.Info("Download git from: https://git-scm.com/downloads")
 	}
+	return nil
 }
 
 func installGitDebian() error {
@@ -122,64 +127,75 @@ func installGitFedora() error {
 }
 
 func installGitUnknown(permission string) error {
-	
 	if permissionIf(permission) {
 		openBrowser()
 	} else {
-		glogger.Info("Downlaod git from: https://git-scm.com/downloads")
+		glogger.Info("Download git from: https://git-scm.com/downloads")
 	}
 	return nil
-}
-
-func exit() {
-	os.Exit(0)
 }
 
 // GettingUpdate requests the application update and manages the update process.
 func GettingUpdate(permission string) {
 	if permissionIf(permission) {
-		updateSoftware()
+		updateSoftware(false)
 	}
 }
 
-func updateSoftware() {
-	if checkTheGitPath() {
+func updateSoftware(test bool) {
+	if checkTheGitPath(test) {
 		if checkIfGitIsInstalled() {
-			updateWithGit()
+			_ = updateWithGit(false)
 		} else {
 			updateGitNotInstalled()
+			if isDebian() || isFedora() || isMacOS() {
+				_ = updateWithGit(false)
+			}
 		}
 	} else {
-		createGitPath()
 		if !checkIfGitIsInstalled() {
 			updateGitNotInstalled()
+			_ = createGitPath()
+			os.Exit(0)
+		} else {
+			_ = createGitPath()
 		}
 	}
-
 }
 
-func createGitPath() {
+func createGitPath() error {
 	glogger.Warning("Updating wastrap...")
 	var cmd *exec.Cmd
-	cmd = exec.Command("git", "init")
-	cmd.Run()
-	cmd = exec.Command("git", "remote", "add", "origin", "https://github.com/institute-atri/wastrap")
-	cmd.Run()
-	cmd = exec.Command("git", "pull", "origin", "main")
-	cmd.Run()
-	glogger.Done("Update done successfully")
 
-	exit()
+	cmd = exec.Command("git", "init")
+	_ = cmd.Run()
+
+	cmd = exec.Command("git", "remote", "add", "origin", "https://github.com/institute-atri/wastrap")
+	_ = cmd.Run()
+
+	cmd = exec.Command("git", "pull", "origin", "main")
+	_ = cmd.Run()
+
+	glogger.Done("Update done successfully")
+	return nil
 }
 
-func updateWithGit() {
+func updateWithGit(test bool) error {
 	glogger.Warning("Updating wastrap...")
 
 	cmd := exec.Command("git", "pull", "origin", "main")
-	cmd.Run()
+	switch test {
+	case true:
+		if err := cmd.Run(); err != nil {
+			return nil
+		}
+	case false:
+		_ = cmd.Run()
+	}
 
 	glogger.Done("Update done successfully")
-	exit()
+
+	return nil
 }
 
 func updateGitNotInstalled() {
@@ -187,17 +203,6 @@ func updateGitNotInstalled() {
 	installGitPermission, _ := glogger.ScanQ("Do you want to install git? [Y/n] ")
 
 	if permissionIf(installGitPermission) {
-		installingGit()
-
-		if isDebian() || isFedora() || isMacOS() {
-			glogger.Warning("Updating wastrap...")
-
-			cmd := exec.Command("git", "pull", "origin", "main")
-			cmd.Run()
-
-			glogger.Done("Update done successfully")
-
-			exit()
-		}
+		_ = installingGit()
 	}
 }

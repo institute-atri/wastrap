@@ -4,6 +4,7 @@ Package update provides functionality for updating the application.
 package update
 
 import (
+	"errors"
 	"io"
 	"os"
 	"strings"
@@ -13,7 +14,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Application represents the structure of the application version.
+// The Application represents the structure of the application version.
 type Application struct {
 	Application struct {
 		Version string `yaml:"version"`
@@ -49,11 +50,11 @@ func FindConfigFile(test bool) string {
 	var filePath string
 
 	if test {
-		filePath = "../internal/config/config.yaml"
+		filePath = "../config/config.yaml"
 	} else {
 		filePath = "internal/config/config.yaml"
 	}
-	
+
 	file, err := os.ReadFile(filePath)
 	if err != nil {
 		glogger.Danger("The program is damaged, check github link: https://github.com/institute-atri/wastrap")
@@ -71,13 +72,16 @@ func FindConfigFile(test bool) string {
 
 // CheckUpdate checks if an update is available by comparing the repository version with the current version.
 // If an update is available, it triggers the update process.
-func CheckUpdate() {
-	respositoryVersion := CheckRepositoryVersion()
+func CheckUpdate() error {
+	repositoryVersion := CheckRepositoryVersion()
 	programVersion := FindConfigFile(false)
 
-	if respositoryVersion != programVersion && programVersion != "" && respositoryVersion != "" {
+	if repositoryVersion != programVersion && programVersion != "" && repositoryVersion != "" {
 		updateWastrapPermission, _ := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
 		GettingUpdate(updateWastrapPermission)
+		return nil
 	}
-}
 
+	err := errors.New("failed to find version")
+	return err
+}
