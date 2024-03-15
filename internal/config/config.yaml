@@ -1,5 +1,5 @@
 application:
-    name:        wastrap
-    version:     v1.0.0
-    author:      institute-atri
-    description: Wastrap, is a tool for the recognition of vulnerabilities and blackbox information for wordpress.
+  name: wastrap
+  version: v1.0.0
+  author: institute-atri
+  description: Wastrap, is a tool for the recognition of vulnerabilities and blackbox information for wordpress.
