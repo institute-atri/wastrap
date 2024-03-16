@@ -10,9 +10,16 @@ import (
 )
 
 // This function will perform a brute force attack on the WordPress site, providing the link and user
-func Bruteforce(url, user string) {
+func Bruteforce(url, user string, pathToWordlist string) {
 	glogger.Warning("Doing brute force attack...")
-	wordlistFile := "./tools/bruteforce/wordlist.txt"
+	var wordlistFile string
+	
+	if pathToWordlist == "" {
+		wordlistFile = "../tools/bruteforce/wordlist.txt"
+	} else {
+		wordlistFile = pathToWordlist
+	}
+	
 	urlLogin := url + "/wp-login.php"
 
 	file, err := os.Open(wordlistFile)
