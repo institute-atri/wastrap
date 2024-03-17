@@ -17,4 +17,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 )
 
-require github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68 // indirect
+require github.com/institute-atri/ghttp v1.0.0-alpha
+
+require github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68
