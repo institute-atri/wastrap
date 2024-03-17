@@ -13,7 +13,7 @@ var (
 	version bool
 )
 
-// rootCmd is the main command of the package cmd
+// rootCmd is the root command for the wastrap tool.
 var rootCmd = &cobra.Command{
 	Use:   "wastrap",
 	Short: "WASTRAP is a web exploration tool focused on the WordPress application.",
@@ -31,9 +31,9 @@ more features in the official documentation).`,
 // Execute is the main function of the package cmd
 func Execute() {
 	banner.Show()
-	if err := rootCmd.Execute(); err != nil {
-		glogger.Fatal(err)
-	}
+
+	err := rootCmd.Execute()
+	glogger.ErrorHandling(err)
 }
 
 // init is the function that initializes the flags

@@ -83,14 +83,14 @@ func installingGit() error {
 	if isMacOS() {
 		_ = installGitMacOs()
 	} else if isWindows() {
-		redirectPermission, _ := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
+		redirectPermission := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
 		_ = installGitWindows(redirectPermission)
 	} else if isDebian() {
 		_ = installGitDebian()
 	} else if isFedora() {
 		_ = installGitFedora()
 	} else {
-		redirectPermission, _ := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
+		redirectPermission := glogger.ScanQ("Do you want to be redirected to the git download site? [Y/n] ")
 
 		_ = installGitUnknown(redirectPermission)
 	}
@@ -200,7 +200,7 @@ func updateWithGit(test bool) error {
 
 func updateGitNotInstalled() {
 	glogger.Danger("Git not installed")
-	installGitPermission, _ := glogger.ScanQ("Do you want to install git? [Y/n] ")
+	installGitPermission := glogger.ScanQ("Do you want to install git? [Y/n] ")
 
 	if permissionIf(installGitPermission) {
 		_ = installingGit()

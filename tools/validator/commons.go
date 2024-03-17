@@ -3,8 +3,8 @@ package validator
 import (
 	"strings"
 
+	"github.com/institute-atri/ghttp"
 	"github.com/institute-atri/glogger"
-	"github.com/institute-atri/gnet"
 )
 
 type communs struct {
@@ -21,7 +21,7 @@ func NewCommons(url, proxy string, tor, randomAgent bool) *communs {
 }
 
 func (c *communs) PHPDisabled() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(c.Url + "wp-includes/version.php")
 
@@ -51,7 +51,7 @@ func (c *communs) PHPDisabled() Interesting {
 }
 
 func (c *communs) XMLRPC() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(c.Url + "xmlrpc.php")
 
@@ -89,7 +89,7 @@ func (c *communs) XMLRPC() Interesting {
 }
 
 func (c *communs) WPCron() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(c.Url + "wp-cron.php")
 

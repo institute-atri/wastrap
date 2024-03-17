@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/institute-atri/wastrap/actions/workflows/ci.yml/badge.svg)](https://github.com/institute-atri/wastrap/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/institute-atri/wastrap/graph/badge.svg?token=1S6ESwX8mV)](https://codecov.io/gh/institute-atri/wastrap)
+[![Go Report Card](https://goreportcard.com/badge/github.com/institute-atri/wastrap)](https://goreportcard.com/report/github.com/institute-atri/wastrap)
 ![GitHub License](https://img.shields.io/github/license/institute-atri/wastrap)
 
 WASTRAP is a web exploration tool focused on the WordPress application.
@@ -9,6 +10,8 @@ WASTRAP is a web exploration tool focused on the WordPress application.
 Being fast and simple, it has functionality that an information security professional cannot fail to have in their
 arsenal. With vulnerability analysis in themes, plugins and others, it also has brute-force in directories, users and
 much more (see more features in the official documentation).
+
+# 🐋 Usage
 
 # 🐋 Features
 

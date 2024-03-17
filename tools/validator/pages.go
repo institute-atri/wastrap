@@ -1,8 +1,8 @@
 package validator
 
 import (
+	"github.com/institute-atri/ghttp"
 	"github.com/institute-atri/glogger"
-	"github.com/institute-atri/gnet"
 )
 
 type pages struct {
@@ -19,7 +19,7 @@ func NewPages(url, proxy string, tor, randomAgent bool) *pages {
 }
 
 func (p *pages) Admin() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(p.Url + "wp-admin/")
 
@@ -49,7 +49,7 @@ func (p *pages) Admin() Interesting {
 }
 
 func (p *pages) Robots() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(p.Url + "robots.txt")
 
@@ -79,7 +79,7 @@ func (p *pages) Robots() Interesting {
 }
 
 func (p *pages) Sitemap() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(p.Url + "sitemap.xml")
 
@@ -109,7 +109,7 @@ func (p *pages) Sitemap() Interesting {
 }
 
 func (p *pages) Readme() Interesting {
-	var request = gnet.NewHttp()
+	var request = ghttp.NewHttp()
 
 	request.SetURL(p.Url + "readme.html")
 

@@ -9,8 +9,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/institute-atri/ghttp"
 	"github.com/institute-atri/glogger"
-	"github.com/institute-atri/gnet"
 	"gopkg.in/yaml.v3"
 )
 
@@ -23,7 +23,7 @@ type Application struct {
 
 func CheckRepositoryVersion() string {
 	url := "https://raw.githubusercontent.com/institute-atri/wastrap/main/internal/config/config.yaml"
-	var response = gnet.GET(url)
+	var response = ghttp.GET(url)
 
 	reader := strings.NewReader(response.BRaw)
 	body, err := io.ReadAll(reader)
@@ -77,7 +77,7 @@ func CheckUpdate() error {
 	programVersion := FindConfigFile(false)
 
 	if repositoryVersion != programVersion && programVersion != "" && repositoryVersion != "" {
-		updateWastrapPermission, _ := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
+		updateWastrapPermission := glogger.ScanQ("Do you want to update wastrap [Y/n] ")
 		GettingUpdate(updateWastrapPermission)
 		return nil
 	}
