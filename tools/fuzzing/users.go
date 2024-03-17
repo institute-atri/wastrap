@@ -9,7 +9,7 @@ import (
 )
 
 func Passive(url, username string, passwords []string) {
-	glogger.Info("Doing brute force attack...")
+	glogger.Info("Performing passive brute force attack...")
 
 	request := ghttp.NewHttp()
 
@@ -38,7 +38,7 @@ func Passive(url, username string, passwords []string) {
 		glogger.ErrorHandling(err)
 
 		if done {
-			glogger.Done("login:\n username:" + username + "\n password:" + password)
+			glogger.Done("Login successful:\nUsername: " + username + "\nPassword: " + password)
 			break
 		}
 	}
@@ -49,7 +49,7 @@ func Passive(url, username string, passwords []string) {
 }
 
 func Aggressive(url, username string, passwords []string) {
-	glogger.Info("Doing brute force attack...")
+	glogger.Info("Performing aggressive brute force attack...")
 
 	request := ghttp.NewHttp()
 
@@ -68,7 +68,7 @@ func Aggressive(url, username string, passwords []string) {
 		glogger.ErrorHandling(err)
 
 		if strings.Contains(strings.ToLower(response.BRaw), "admin") {
-			glogger.Done("login:\n username:" + username + "\n password:" + password)
+			glogger.Done("Login successful:\nUsername: " + username + "\nPassword: " + password)
 
 			done = true
 
