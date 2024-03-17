@@ -13,12 +13,22 @@ much more (see more features in the official documentation).
 
 # 🐋 Usage
 
+To use the tool, you need to have Go installed on your machine. If you don't have it, you can download it from the
+official website: [https://golang.org/dl/](https://golang.org/dl/).
+
+```bash
+go run main.go --help
+```
+
+![Screenshot](.github/images/screenshot-help.png)
+
 # 🐋 Features
 
 ![GitHub Issues](https://img.shields.io/github/issues/institute-atri/wastrap)
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/institute-atri/wastrap)
 
-This project is under development, so the features are not yet available.
+This project is under development, so the features are not yet available. However, you can see the features that are in
+development in the official documentation.
 
 # 🐋 License
 

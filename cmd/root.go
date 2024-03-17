@@ -24,7 +24,7 @@ With vulnerability analysis in themes, plugins and others, it
 also has brute-force in directories, users and much more (see 
 more features in the official documentation).`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Add the main logic here
+
 	},
 }
 
@@ -36,12 +36,9 @@ func Execute() {
 	glogger.ErrorHandling(err)
 }
 
-// init is the function that initializes the flags
+// init sets up the command-line flags for the root command.
 func init() {
-	// Persistent flags
-	rootCmd.PersistentFlags().StringVarP(&url, "url", "u", "", "Set the URL target")
-
-	// Flags
+	rootCmd.Flags().StringVarP(&url, "url", "u", "", "Set the URL target")
 	rootCmd.Flags().BoolVarP(&version, "version", "v", false, "Show the version of the tool")
 	rootCmd.Flags().BoolVarP(&update, "update", "", false, "Update the tool")
 }
