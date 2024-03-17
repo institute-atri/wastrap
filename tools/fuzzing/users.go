@@ -7,7 +7,7 @@ import (
 	"github.com/institute-atri/glogger"
 )
 
-func Passive(url, username string, password []string) {
+func Passive(url, username string, passwords []string) {
 	glogger.Info("Doing brute force attack...")
 
 	request := ghttp.NewHttp()
