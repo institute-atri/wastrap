@@ -3,8 +3,8 @@ package firewalls
 import (
 	"strconv"
 
+	"github.com/institute-atri/ghttp"
 	"github.com/institute-atri/glogger"
-	"github.com/institute-atri/gnet"
 )
 
 var wafPlugins = []string{
@@ -43,7 +43,7 @@ func CheckWAFPlugins(siteURL string) {
 	for _, plugin := range wafPlugins {
 		url := pluginsURL + plugin + "/"
 
-		response := gnet.GET(url)
+		response := ghttp.GET(url)
 		responseStatus := strconv.Itoa(response.StatusCode)
 		messageResponse := "Plugin: \"" + plugin + "\" | Status: \"" + responseStatus + "\""
 
