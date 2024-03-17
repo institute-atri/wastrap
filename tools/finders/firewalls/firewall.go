@@ -2,7 +2,6 @@ package firewalls
 
 import (
 	"strconv"
-	"strings"
 
 	"github.com/institute-atri/glogger"
 	"github.com/institute-atri/gnet"
@@ -38,15 +37,6 @@ var wafPlugins = []string{
 }
 
 func CheckWAFPlugins(siteURL string) {
-	if siteURL == "" {
-		glogger.Danger("Please provide a URL")
-		return
-	}
-	if !strings.HasPrefix(siteURL, "http://") && !strings.HasPrefix(siteURL, "https://") {
-		glogger.Danger("The link provided is not a valid URL\n")
-		return
-	}
-
 	pluginsURL := siteURL + "/wp-content/plugins/"
 	glogger.Info("Detected Web Application Firewalls (WAFs):\n")
 
