@@ -7,11 +7,7 @@ import (
 	"github.com/institute-atri/glogger"
 )
 
-func Passive[T string | []string](url string, username, password T) {
-	glogger.Info("Doing brute force attack...")
-}
-
-func Agressive(url, username string, passwords []string) {
+func Passive(url, username string, password []string) {
 	glogger.Info("Doing brute force attack...")
 
 	request := ghttp.NewHttp()
@@ -46,3 +42,5 @@ func Agressive(url, username string, passwords []string) {
 		glogger.Danger("User password not found!")
 	}
 }
+
+func Agressive(url, username string, passwords []string) {}
