@@ -3,7 +3,7 @@ module github.com/institute-atri/wastrap
 go 1.22.1
 
 // Package dependencies - ATRI
-require github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6
+require github.com/institute-atri/glogger v1.0.0-alpha
 
 // Package dependencies
 require (
@@ -17,4 +17,4 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 )
 
-require github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68 // indirect
+require github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68

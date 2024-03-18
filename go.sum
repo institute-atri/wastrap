@@ -1,8 +1,8 @@
 github.com/cpuguy83/go-md2man/v2 v2.0.3/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
-github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6 h1:QHbV3gHuqTDJ7epdTmdr1pvobztIb+SLAaVfuhlR/WE=
-github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6/go.mod h1:Vc1Lw91Epn5eApmf6vA38wTGFzflOlTsaMKHAk1E5dM=
+github.com/institute-atri/glogger v1.0.0-alpha h1:001edabdnWpee5k4iK6jfhlgkbEL2EJG/m2HB0pH5k8=
+github.com/institute-atri/glogger v1.0.0-alpha/go.mod h1:7/cwwZYwrxkA9Y4cocW00SmbWj5E2ZsuaN2inODuXTU=
 github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68 h1:Vgl3JDYdeeGCUGXDndb0HgBlmukPPmitNa+/DMFLxlM=
 github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68/go.mod h1:mt7Jg9iEgvJrqB5+tirUgXT4UBXyadxEacK1yUVumPc=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
