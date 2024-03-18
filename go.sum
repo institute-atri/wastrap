@@ -3,8 +3,8 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6 h1:QHbV3gHuqTDJ7epdTmdr1pvobztIb+SLAaVfuhlR/WE=
 github.com/institute-atri/glogger v0.0.0-20240308200612-9c47543fa3f6/go.mod h1:Vc1Lw91Epn5eApmf6vA38wTGFzflOlTsaMKHAk1E5dM=
-github.com/institute-atri/gnet v0.0.0-20240312004547-aac3a62e404a h1:WSiWX1fTyMx7KcLzqzfY9QX5AaIHPO8mL5gMtCGv7W0=
-github.com/institute-atri/gnet v0.0.0-20240312004547-aac3a62e404a/go.mod h1:mt7Jg9iEgvJrqB5+tirUgXT4UBXyadxEacK1yUVumPc=
+github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68 h1:Vgl3JDYdeeGCUGXDndb0HgBlmukPPmitNa+/DMFLxlM=
+github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68/go.mod h1:mt7Jg9iEgvJrqB5+tirUgXT4UBXyadxEacK1yUVumPc=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/spf13/cobra v1.8.0 h1:7aJaZx1B85qltLMc546zn58BxxfZdR/W22ej9CFoEf0=
 github.com/spf13/cobra v1.8.0/go.mod h1:WXLWApfZ71AjXPya3WOlMsY9yMs7YeiHhFVlvLyhcho=
