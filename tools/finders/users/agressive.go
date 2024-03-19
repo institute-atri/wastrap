@@ -68,7 +68,7 @@ func methodWpJson(url string) []string {
 	}
 	
 	for _, slug := range slugs{
-		glogger.Done(slug)
+		glogger.Done("User:", slug)
 	}
 
 	return slugs
@@ -92,7 +92,7 @@ func methodRestRouteWp(url string) []string {
 	}
 	
 	for _, slug := range slugs{
-		glogger.Done(slug)
+		glogger.Done("User:", slug)
 	}
 
 	return slugs
