@@ -8,6 +8,7 @@ import (
 	"github.com/institute-atri/gnet"
 )
 
+// Will fetch usernames aggressively and will return a slice from each method
 func Agressive(url string) [][]string  {
 	glogger.Warning("Method: /author-sitemap.xml")
 	authorSitemapReturn := methodAuthorSitemapXML(url)
@@ -22,6 +23,7 @@ func Agressive(url string) [][]string  {
 	return [][]string{authorSitemapReturn, wpJsonReturn, RestRouterWpReturn}
 }
 
+// This method will look for users on the endpoint: /author-sitemap.xml
 func methodAuthorSitemapXML(url string) []string {
 	urlMethod := url + "/author-sitemap.xml"
 	response := gnet.GET(urlMethod)
@@ -50,6 +52,7 @@ func methodAuthorSitemapXML(url string) []string {
 	return authors
 }
 
+// This method will look for users on the endpoint: /wp-json/wp/v2/users
 func methodWpJson(url string) []string {
 	urlMethod := url + "/wp-json/wp/v2/users"
 	response := gnet.GET(urlMethod)
@@ -74,6 +77,7 @@ func methodWpJson(url string) []string {
 	return slugs
 }
 
+// This method will look for users on the endpoint: /?rest_route=/wp/v2/users
 func methodRestRouteWp(url string) []string {
 	urlMethod := url + "/?rest_route=/wp/v2/users"
 	response := gnet.GET(urlMethod)
