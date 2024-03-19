@@ -1,8 +1,9 @@
 package validator
 
 import (
+	"regexp"
 	"strings"
-
+	"github.com/institute-atri/glogger"
 	"github.com/institute-atri/ghttp"
 )
 
@@ -17,12 +18,26 @@ func Wordpress(url string) bool {
 	}
 
 	response := ghttp.GET(url)
-
+  
 	for _, payload := range payloads {
 		if strings.Contains(response.BRaw, payload) {
 			confidence++
 		}
 	}
-
 	return confidence/4*100 <= 50
+}
+func WordpressVersion(url string)string{
+	request := ghttp.NewHttp()
+
+	request.SetURL(url)
+	request.SetMethod("GET")
+
+	response, err := request.Do()
+
+	if err != nil {
+		glogger.Danger(err)
+	}
+
+	rex := regexp.MustCompile("<meta name=\"generator\" content=\"WordPress ([0-9.-]*).*?")
+	return rex.FindStringSubmatch(response.BRaw)[1]
 }
