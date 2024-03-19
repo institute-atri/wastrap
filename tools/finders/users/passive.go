@@ -8,7 +8,7 @@ import (
 	"github.com/institute-atri/gnet"
 )
 
-func Passive(url string) {
+func Passive(url string) []string {
 	urlFeed := url + "/feed"
 
 	response := gnet.GET(urlFeed)
@@ -17,17 +17,20 @@ func Passive(url string) {
 
 	matches := search.FindAllStringSubmatch(response.BRaw, -1)
 
+	var creators []string
 	if len(matches) == 0 {
 		glogger.Danger("Nothing found")
 	} else {
 		seenCreators := make(map[string]bool)
 		for _, match := range matches {
-			creators := strings.TrimPrefix(strings.TrimSuffix(match[1], "]]>"), "<![CDATA[")
+			creator := strings.TrimPrefix(strings.TrimSuffix(match[1], "]]>"), "<![CDATA[")
 	
-			if !seenCreators[creators] {
-				glogger.Done("Creator:", creators)
-				seenCreators[creators] = true
+			if !seenCreators[creator] {
+				glogger.Done("Creator:", creator)
+				creators = append(creators, creator)
+				seenCreators[creator] = true
 			}
 		}
 	}
+	return creators
 }

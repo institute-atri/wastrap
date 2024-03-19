@@ -8,16 +8,18 @@ import (
 	"github.com/institute-atri/gnet"
 )
 
-func Agressive(url string) {
+func Agressive(url string) [][]string  {
 	glogger.Warning("Method: /author-sitemap.xml")
-	methodAuthorSitemapXML(url)
+	authorSitemapReturn := methodAuthorSitemapXML(url)
 	println("=======================================")
 	glogger.Warning("Method: /wp-json/wp/v2/users")
-	methodWpJson(url)
+	wpJsonReturn := methodWpJson(url)
 	println("=======================================")
 	glogger.Warning("Method: /?rest_route=/wp/v2/users")
-	methodRestRouteWp(url)
+	RestRouterWpReturn := methodRestRouteWp(url)
 	println("=======================================")
+
+	return [][]string{authorSitemapReturn, wpJsonReturn, RestRouterWpReturn}
 }
 
 func methodAuthorSitemapXML(url string) []string {
