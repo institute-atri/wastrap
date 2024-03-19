@@ -19,4 +19,3 @@ require (
 
 require github.com/institute-atri/ghttp v1.0.0-alpha
 
-require github.com/institute-atri/gnet v0.0.0-20240316010114-8ab72aa39e68
