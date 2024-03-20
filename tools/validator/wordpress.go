@@ -7,7 +7,6 @@ import (
 	"github.com/institute-atri/ghttp"
 )
 
-// It must perform validation to determine if the target inserted through the --url parameter of the Command Line Interface (CLI) is effectively running the WordPress framework.
 func Wordpress(url string) bool {
 	var confidence float32
 
@@ -18,8 +17,8 @@ func Wordpress(url string) bool {
 		"<link rel=\"https://api.w.org/\"",
 	}
 
-	var response = ghttp.GET(url)
-
+	response := ghttp.GET(url)
+  
 	for _, payload := range payloads {
 		if strings.Contains(response.BRaw, payload) {
 			confidence++
