@@ -33,3 +33,4 @@ func LoadConfig(filename string) (Config, error) {
 func GetVersion(cfg Config) string {
 	return cfg.Application.Version
 }
+lu987456#
