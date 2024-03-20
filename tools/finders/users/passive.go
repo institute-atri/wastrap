@@ -5,14 +5,14 @@ import (
 	"strings"
 
 	"github.com/institute-atri/glogger"
-	"github.com/institute-atri/gnet"
+	"github.com/institute-atri/ghttp"
 )
 
 // It will search for usernames passively and return a slice containing the users
 func Passive(url string) []string {
 	urlFeed := url + "/feed"
 
-	response := gnet.GET(urlFeed)
+	response := ghttp.GET(urlFeed)
 
 	search := regexp.MustCompile(`<dc:creator><!\[CDATA\[(.+?)\]\]></dc:creator>`)
 
