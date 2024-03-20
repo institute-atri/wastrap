@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/institute-atri/wastrap/actions/workflows/ci.yml/badge.svg)](https://github.com/institute-atri/wastrap/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/institute-atri/wastrap/graph/badge.svg?token=1S6ESwX8mV)](https://codecov.io/gh/institute-atri/wastrap)
+[![Go Report Card](https://goreportcard.com/badge/github.com/institute-atri/wastrap)](https://goreportcard.com/report/github.com/institute-atri/wastrap)
 ![GitHub License](https://img.shields.io/github/license/institute-atri/wastrap)
 
 WASTRAP is a web exploration tool focused on the WordPress application.
@@ -10,12 +11,24 @@ Being fast and simple, it has functionality that an information security profess
 arsenal. With vulnerability analysis in themes, plugins and others, it also has brute-force in directories, users and
 much more (see more features in the official documentation).
 
+# 🐋 Usage
+
+To use the tool, you need to have Go installed on your machine. If you don't have it, you can download it from the
+official website: [https://golang.org/dl/](https://golang.org/dl/).
+
+```bash
+go run main.go --help
+```
+
+![Screenshot](.github/images/screenshot-help.png)
+
 # 🐋 Features
 
 ![GitHub Issues](https://img.shields.io/github/issues/institute-atri/wastrap)
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/institute-atri/wastrap)
 
-This project is under development, so the features are not yet available.
+This project is under development, so the features are not yet available. However, you can see the features that are in
+development in the official documentation.
 
 # 🐋 License
 

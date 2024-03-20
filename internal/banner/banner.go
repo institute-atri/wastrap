@@ -1,5 +1,6 @@
 package banner
 
+// Show is a function that shows the banner of the tool.
 func Show() {
 	bar := "_________________________________________________________________\n"
 	print(bar)
