@@ -8,6 +8,7 @@ import (
 	"github.com/institute-atri/glogger"
 )
 
+// mode passive of searching for plugin versions
 func Passive(url string) {
 	response := ghttp.GET(url)
 
@@ -68,6 +69,7 @@ func Passive(url string) {
 	}
 }
 
+// get the plugin name
 func extractPluginName(link string) string {
 	search := regexp.MustCompile(`plugins/([^/]+)/`)
 	matches := search.FindStringSubmatch(link)

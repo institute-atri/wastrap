@@ -9,12 +9,14 @@ import (
 
 var pluginsWithReadme = make(map[string]bool)
 
+// check if the page is available
 func statusLink(url string) *ghttp.HttpResponse {
 	url += "/wp-content/plugins"
 	response := ghttp.GET(url)
 	return response
 }
 
+// searching readme.txt
 func searchReadme(url string, plugin string) bool {
 	url += "/wp-content/plugins/" + plugin
 	response := ghttp.GET(url)
@@ -31,6 +33,7 @@ func searchReadme(url string, plugin string) bool {
 	return false
 }
 
+// colleting the version through readme.txt
 func collectReadmeVersion(url string, plugin string) string {
 	url += "/wp-content/plugins/" + plugin + "/readme.txt"
 
@@ -46,7 +49,7 @@ func collectReadmeVersion(url string, plugin string) string {
 	return ""
 }
 
-
+// searching changelog.txt
 func searchChangelog(url string, plugin string) bool {
 	url += "/wp-content/plugins/" + plugin
 	response := ghttp.GET(url)
@@ -61,6 +64,7 @@ func searchChangelog(url string, plugin string) bool {
 	return false
 }
 
+// colleting the version through changelog.txt
 func collectChangelogVersion(url string, plugin string) string {
 	url += "/wp-content/plugins/" + plugin + "/changelog.txt"
 
@@ -76,6 +80,8 @@ func collectChangelogVersion(url string, plugin string) string {
 	return ""
 }
 
+
+// mode agressive of searching for plugin versions
 func Agressive(url string) {
 	response := statusLink(url)
 
