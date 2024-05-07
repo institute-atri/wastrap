@@ -9,13 +9,13 @@ import (
 
 var pluginsWithReadme = make(map[string]bool)
 
-func status_link(url string) *ghttp.HttpResponse {
+func statusLink(url string) *ghttp.HttpResponse {
 	url += "/wp-content/plugins"
 	response := ghttp.GET(url)
 	return response
 }
 
-func search_readme(url string, plugin string) bool {
+func searchReadme(url string, plugin string) bool {
 	url += "/wp-content/plugins/" + plugin
 	response := ghttp.GET(url)
 
@@ -31,7 +31,7 @@ func search_readme(url string, plugin string) bool {
 	return false
 }
 
-func collect_readme_version(url string, plugin string) string {
+func collectReadmeVersion(url string, plugin string) string {
 	url += "/wp-content/plugins/" + plugin + "/readme.txt"
 
 	response := ghttp.GET(url)
@@ -47,7 +47,7 @@ func collect_readme_version(url string, plugin string) string {
 }
 
 
-func search_changelog(url string, plugin string) bool {
+func searchChangelog(url string, plugin string) bool {
 	url += "/wp-content/plugins/" + plugin
 	response := ghttp.GET(url)
 
@@ -61,7 +61,7 @@ func search_changelog(url string, plugin string) bool {
 	return false
 }
 
-func collect_changelog_version(url string, plugin string) string {
+func collectChangelogVersion(url string, plugin string) string {
 	url += "/wp-content/plugins/" + plugin + "/changelog.txt"
 
 	response := ghttp.GET(url)
@@ -77,7 +77,7 @@ func collect_changelog_version(url string, plugin string) string {
 }
 
 func Agressive(url string) {
-	response := status_link(url)
+	response := statusLink(url)
 
 	if response.StatusCode != 200 {
 		glogger.Danger("Unable to access the page")
@@ -88,21 +88,21 @@ func Agressive(url string) {
 	matches := search.FindAllStringSubmatch(response.BRaw, -1)
 
 	for _, match := range matches {
-		search_readme(url, match[1])
+		searchReadme(url, match[1])
 	}
 
 	glogger.Done("======Result======")
 
 	for plugin, has_readme := range pluginsWithReadme {
 		if has_readme {
-			version := collect_readme_version(url, plugin)
+			version := collectReadmeVersion(url, plugin)
 			glogger.Done("- ", plugin)
 			println("  | Version: ", version)
 			println("     | Method: readme.txt")
 		} else {
-			changelog := search_changelog(url, plugin)
+			changelog := searchChangelog(url, plugin)
 			if changelog {
-				version := collect_changelog_version(url, plugin)
+				version := collectChangelogVersion(url, plugin)
 				glogger.Done("- ", plugin)
 				println("  | Version: ", version)
 				println("     | Method: changelog.txt")
