@@ -9,8 +9,7 @@ import (
 
 var pluginsWithReadme = make(map[string]bool)
 
-// check if the page is available
-func statusLink(url string) *ghttp.HttpResponse {
+func getResponse(url string) *ghttp.HttpResponse {
 	url += "/wp-content/plugins"
 	response := ghttp.GET(url)
 	return response
@@ -83,7 +82,7 @@ func collectChangelogVersion(url string, plugin string) string {
 
 // mode agressive of searching for plugin versions
 func Agressive(url string) {
-	response := statusLink(url)
+	response := getResponse(url)
 
 	if response.StatusCode != 200 {
 		glogger.Danger("Unable to access the page")

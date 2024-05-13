@@ -4,8 +4,8 @@ import "testing"
 
 var link string = "https://test-atri.netlify.app" 
 
-func TestStatusLink(t *testing.T) {
-	response := statusLink(link)
+func TestGetResponse(t *testing.T) {
+	response := getResponse(link)
 
 	if response.StatusCode != 200 {
 		t.Fatal("What was expected was 200 but it was:", response.StatusCode)

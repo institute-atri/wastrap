@@ -43,6 +43,7 @@ func Passive(url string) {
 	}
 
 	for pluginName, versions := range pluginVersions {
+		// check if there is more than one version of the same plugin on the page
 		if len(versions) > 1 {
 			glogger.Done(pluginName)
 			for version, links := range versions {
