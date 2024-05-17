@@ -5,7 +5,7 @@ import "testing"
 var link string = "https://test-atri.netlify.app" 
 
 func TestGetResponse(t *testing.T) {
-	response := getResponse(link)
+	response := getResponse(link, "/wp-content/plugins")
 
 	if response.StatusCode != 200 {
 		t.Fatal("What was expected was 200 but it was:", response.StatusCode)

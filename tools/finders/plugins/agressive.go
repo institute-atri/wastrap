@@ -9,16 +9,15 @@ import (
 
 var pluginsWithReadme = make(map[string]bool)
 
-func getResponse(url string) *ghttp.HttpResponse {
-	url += "/wp-content/plugins"
+func getResponse(url, page string) *ghttp.HttpResponse {
+	url += page
 	response := ghttp.GET(url)
 	return response
 }
 
 // searching readme.txt
 func searchReadme(url string, plugin string) bool {
-	url += "/wp-content/plugins/" + plugin
-	response := ghttp.GET(url)
+	response := getResponse(url, "/wp-content/plugins/" + plugin)
 
 	search := regexp.MustCompile(`[^'"]*?readme\.txt`)
 
@@ -34,9 +33,7 @@ func searchReadme(url string, plugin string) bool {
 
 // colleting the version through readme.txt
 func collectReadmeVersion(url string, plugin string) string {
-	url += "/wp-content/plugins/" + plugin + "/readme.txt"
-
-	response := ghttp.GET(url)
+	response := getResponse(url, "/wp-content/plugins/" + plugin + "/readme.txt")
 
 	search := regexp.MustCompile(`Stable tag: (\d+\.\d+\.\d+)`)
 
@@ -50,8 +47,7 @@ func collectReadmeVersion(url string, plugin string) string {
 
 // searching changelog.txt
 func searchChangelog(url string, plugin string) bool {
-	url += "/wp-content/plugins/" + plugin
-	response := ghttp.GET(url)
+	response := getResponse(url, "/wp-content/plugins/" + plugin)
 
 	search := regexp.MustCompile(`[^'"]*?changelog\.txt`)
 
@@ -65,9 +61,7 @@ func searchChangelog(url string, plugin string) bool {
 
 // colleting the version through changelog.txt
 func collectChangelogVersion(url string, plugin string) string {
-	url += "/wp-content/plugins/" + plugin + "/changelog.txt"
-
-	response := ghttp.GET(url)
+	response := getResponse(url, "/wp-content/plugins/" + plugin + "/changelog.txt")
 
 	search := regexp.MustCompile(`(\d+\.\d+\.\d+)`)
 
@@ -82,7 +76,7 @@ func collectChangelogVersion(url string, plugin string) string {
 
 // mode agressive of searching for plugin versions
 func Agressive(url string) {
-	response := getResponse(url)
+	response := getResponse(url, "/wp-content/plugins")
 
 	if response.StatusCode != 200 {
 		glogger.Danger("Unable to access the page")
